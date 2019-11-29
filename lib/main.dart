@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:indexed_list_view/indexed_list_view.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 void main() => runApp(MyApp());
@@ -41,6 +42,7 @@ class _NavigationPageState extends State<NavigationPage> {
     axis: Axis.vertical,
     suggestedRowHeight: 210.0,
   );
+  final _indexedScrollController = IndexedScrollController();
 
   int _selectedIndex = 0;
 
@@ -48,7 +50,7 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
       _ScrollToIndexList(_autoScrollController),
-      _IndexedListViewList(),
+      _IndexedListViewList(_indexedScrollController),
       _ScrollablePositionedList(),
     ];
 
@@ -89,14 +91,18 @@ class _NavigationPageState extends State<NavigationPage> {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text(index.toString()),
-                  duration: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 300),
                 ),
               );
-              final oo = await _autoScrollController.scrollToIndex(
-                index,
-                preferPosition: AutoScrollPosition.begin,
-              );
-              print(oo);
+
+              if (_selectedIndex == 0) {
+                _autoScrollController.scrollToIndex(
+                  index,
+                  preferPosition: AutoScrollPosition.begin,
+                );
+              } else if (_selectedIndex == 1) {
+                _indexedScrollController.jumpToIndex(index);
+              }
             },
             child: Icon(Icons.arrow_downward),
           );
@@ -144,11 +150,14 @@ class _ScrollToIndexList extends StatelessWidget {
 }
 
 class _IndexedListViewList extends StatelessWidget {
-  const _IndexedListViewList();
+  const _IndexedListViewList(this.controller);
+
+  final IndexedScrollController controller;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return IndexedListView.builder(
+      controller: controller,
       itemBuilder: (context, index) {
         return Container(
           height: (Random().nextInt(400) + 20).toDouble(),

@@ -39,10 +39,7 @@ class _NavigationPageState extends State<NavigationPage> {
     Icons.search,
   ];
 
-  final _autoScrollController = AutoScrollController(
-    axis: Axis.vertical,
-    suggestedRowHeight: 210.0,
-  );
+  final _autoScrollController = AutoScrollController();
   final _indexedScrollController = IndexedScrollController();
   final _itemScrollController = ItemScrollController();
 
@@ -126,6 +123,7 @@ class _ScrollToIndexList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      controller: controller,
       itemCount: _maxItemCount,
       itemBuilder: (context, index) {
         return AutoScrollTag(

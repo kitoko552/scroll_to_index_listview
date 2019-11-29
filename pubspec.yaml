@@ -1,0 +1,25 @@
+name: scroll_to_index_list
+description: Demo app for ListView that is able to scroll to index
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+
+  flutter_widgets: ^0.1.7+1
+  indexed_list_view: ^1.0.8
+  scroll_to_index: ^1.0.4+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true

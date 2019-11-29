@@ -28,25 +28,35 @@ class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
   int _scrollIndex = 0;
 
-  static const List<Widget> _pages = [_ScrollToIndexList()];
+  static const List<String> _titles = [
+    'scroll_to_index',
+    'indexed_list_view',
+    'scrollable_positioned_list',
+  ];
+  static const List<Widget> _pages = [
+    _ScrollToIndexList(),
+    _ScrollToIndexList(),
+    _ScrollToIndexList(),
+  ];
+  static const List<IconData> _icons = [
+    Icons.home,
+    Icons.notifications,
+    Icons.search,
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_selectedIndex]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('scroll_to_index'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            title: Text('indexed_list_view'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text('scrollable_positioned_list'),
-          ),
+        items: <BottomNavigationBarItem>[
+          for (int i = 0; i < _pages.length; i++)
+            BottomNavigationBarItem(
+              icon: Icon(_icons[i]),
+              title: Text(_titles[i]),
+            ),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) {
